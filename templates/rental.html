@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/0209bfe594ed24b75ee2aac06529e4f9?family=Neue+Haas+Grotesk+Display+Pro+75+Bold">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/helvetica-neue-55?styles=15999">
+    <title>Kitap Kiralama Paneli</title>
+    <style>
+        .stock-info-body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #f0f0f5, #d6d6e1);
+        }
+        .stock-info-panel-container {
+            width: 30%; 
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .stock-info-add-panel h3 {
+            color: #4CAF50;
+            margin-bottom: 10px;
+        }
+        .stock-info-panel form input,
+        .stock-info-panel form select {
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .stock-info-panel form button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .stock-info-panel form button:hover {
+            background-color: #45a049;
+        }
+        .stock-info-table-container {
+            width: 90%;
+            margin-top: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .stock-info-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        .stock-info-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        .stock-info-cell {
+            padding: 12px 15px;
+            color: #333;
+            font-size: 1rem;
+        }
+        .stock-info-row-even {
+            background-color: #f9f9f9;
+        }
+        .stock-info-table tr:hover {
+            background-color: #f1f1f1;
+        }
+        #book-search{
+            width: 96%;
+        }
+        #customer-search{
+            width: 96%;
+        }
+    </style>
+</head>
+<body class="stock-info-body">
+    <!-- Kitap Kiralama Paneli -->
+    <div class="stock-info-panel-container">
+        <div class="stock-info-panel stock-info-add-panel">
+            <h3>Kitap Kirala</h3>
+            <form action="/rental" method="POST" id="rental-form">
+                <!-- Kitap Ara -->
+                <input type="text" id="book-search" placeholder="Kitap Ara..." required>
+                <select id="book-select" name="book_id" required>
+                    <option value="">Kitap Seçiniz</option>
+                </select>
+
+                
+                <!-- Müşteri Ara -->
+                <input type="text" id="customer-search" placeholder="Müşteri Ara..." required>
+                <select id="customer-select" name="customer_id" required>
+                    <option value="">Müşteri Seçiniz</option>
+                </select>
+
+                <button type="submit" id="add-rental">Ekle</button>
+                <span style="color: red;">  </span>
+            </form>
+        </div>
+    </div>
+
+    <!-- Kiralanan Kitaplar Tablosu -->
+    <div class="stock-info-table-container">
+        <table class="stock-info-table">
+            <thead>
+                <tr>
+                    <th class="stock-info-header">Kitap Adı</th>
+                    <th class="stock-info-header">Kiralayan Adı</th>
+                    <th class="stock-info-header">Verilme Tarihi</th>
+                    <th class="stock-info-header">Son Teslim Tarihi</th>
+                    <th class="stock-info-header">Teslim Edildi mi?</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for rental in rentals %}
+                <tr class="{% if loop.index % 2 == 0 %}stock-info-row-even{% endif %}">
+                    <td class="stock-info-cell">{{ rental.book_name }}</td>
+                    <td class="stock-info-cell">{{ rental.customer_name }}</td>
+                    <td class="stock-info-cell">{{ rental.rental_date }}</td>
+                    <td class="stock-info-cell">{{ rental.due_date }}</td>
+                    <td class="stock-info-cell">{{ rental.returned }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const bookSearch = document.getElementById('book-search');
+            const bookSelect = document.getElementById('book-select');
+        
+            const customerSearch = document.getElementById('customer-search');
+            const customerSelect = document.getElementById('customer-select');
+          
+
+            // Kitap arama
+            bookSearch.addEventListener('input', () => {
+                fetch(`/search/book?q=${bookSearch.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        bookSelect.innerHTML = data.map(book => `<option value="${book.kitap_id}">Kitap Adı: ${book.kitap_adi+", Baskı Tarihi:"+book.yili}  </option>`).join('');
+                    });
+            });
+
+
+            customerSearch.addEventListener('input', () => {
+                fetch(`/search/customer?q=${customerSearch.value}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        customerSelect.innerHTML = data.map(customer => `<option value="${customer.musteri_id}">${customer.name}</option>`).join('');
+                    });
+            });
+        });
+    </script>
+    {%include 'sideMenu.html'%}
+</body>
+</html>

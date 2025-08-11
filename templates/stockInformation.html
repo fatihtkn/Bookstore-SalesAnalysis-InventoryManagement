@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+   
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/0209bfe594ed24b75ee2aac06529e4f9?family=Neue+Haas+Grotesk+Display+Pro+75+Bold">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/helvetica-neue-55?styles=15999">
+    <link rel="stylesheet" href="/static/styles/stockInfo.css">
+</head>
+
+<body class="stock-info-body">
+
+
+  <div class="stock-info-panel-container">
+    <!-- Ürün Ekle Paneli -->
+    <div class="stock-info-panel stock-info-add-panel">
+      <h3>Ürün Ekle</h3>
+      <form action="/add_book" method="POST" id="add-book-form">
+        <input type="text" name="kitap_adi" placeholder="Kitap Adı" required>
+        <input type="date" name="tarih" placeholder="Yıl" required>
+        <input type="number" name="sayfa_sayisi" placeholder="Sayfa sayısı" required>
+        <input type="number" name="stok_sayisi" placeholder="Stok Sayısı" required>
+
+        <input type="text" id="author-search" placeholder="Yazar Ara..." required>
+        <select id="author-select" name="author_id" required>
+          <option value="">Yazar Seçiniz</option>
+        </select>
+
+        <input type="text" id="genre-search" placeholder="Tür Ara..." required>
+        <select id="genre-select" name="genre_id" required>
+          <option value="">Tür Seçiniz</option>
+        </select>
+
+      
+
+
+
+
+        
+        
+        <button type="submit">Ekle</button>
+      </form>
+    </div>
+
+    <!-- Ürün Sil Paneli -->
+    <div class="stock-info-panel stock-info-delete-panel">
+      <h3>Ürün Sil</h3>
+      <form id="delete-book-form" action="/delete_book" method="POST">
+        <input type="text" id="book-search" placeholder="Kitap Ara..." required>
+        <select id="book-select" name="book_id" required>
+          <option value="">Kitap Seçiniz</option>
+        </select>
+        <button type="submit">Sil</button>
+        
+      </form>
+    </div>
+  </div>
+
+
+
+  <div class="stock-info-table-container">
+    <table class="stock-info-table">
+      <thead>
+        <tr>
+          <th class="stock-info-header" >Kitap Adı</th>
+          <th class="stock-info-header">Yazar</th>
+          <th class="stock-info-header">Stok Sayısı</th>
+        </tr>
+      </thead>
+      <tbody id="stock-info-table-body">
+     
+        
+      
+      </tbody>
+    </table>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+    <script src="/static/scripts/stockInfo.js"></script>
+    {%include 'sideMenu.html'%}
+  </body>
+</html>

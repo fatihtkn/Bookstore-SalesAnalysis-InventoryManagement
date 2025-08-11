@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top and Bottom Sellers</title>
+    
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/0209bfe594ed24b75ee2aac06529e4f9?family=Neue+Haas+Grotesk+Display+Pro+75+Bold">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/helvetica-neue-55?styles=15999">
+   
+
+    <style>
+       
+        .tb-seller-body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(to bottom, #f0f0f5, #d6d6e1);
+        }
+
+       
+        .tb-seller-table-container {
+            width: 93%;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+            left: 45px;
+            margin-bottom: 40px;
+            padding: 20px;
+            margin-top: 100px;
+        }
+
+      
+        .tb-seller-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+        }
+
+      
+        .tb-seller-header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+
+      
+        .tb-seller-cell {
+            padding: 12px 15px;
+            color: #333;
+            font-size: 1rem;
+        }
+
+      
+        .tb-seller-row-even {
+            background-color: #f9f9f9;
+        }
+
+       
+        .tb-seller-table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        @media (max-width: 768px) {
+            .tb-seller-table-container {
+                width: 95%;
+            }
+            .tb-seller-header, .stock-info-cell {
+                font-size: 0.9rem;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body class="tb-seller-body">
+
+    <div class="tb-seller-table-container">
+        <!-- En Çok Satanlar Tablosu -->
+        <h2 class="text-center">En Çok Satanlar</h2>
+        <table class="tb-seller-table">
+            <thead title="En Çok Satan">
+                <tr>
+                    <th class="tb-seller-header">Kitap Adı</th>
+                    <th class="tb-seller-header">Yazar</th>
+                    <th class="tb-seller-header">Satış Miktarı</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in top_10_books %}
+                <tr class="{% if loop.index % 2 == 0 %}tb-seller-row-even{% endif %}">
+                    <td class="tb-seller-cell">{{ book.name }}</td>
+                    <td class="tb-seller-cell">{{ book.author }}</td>
+                    <td class="tb-seller-cell">{{ book.sales }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="tb-seller-table-container">
+        <!-- En Az Satanlar Tablosu -->
+        <h2 class="text-center">En Az Satanlar</h2>
+        <table class="tb-seller-table">
+            <thead title="En Az Satan">
+                <tr>
+                    <th class="tb-seller-header">Kitap Adı</th>
+                    <th class="tb-seller-header">Yazar</th>
+                    <th class="tb-seller-header">Satış Miktarı</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in bottom_10_books %}
+                <tr class="{% if loop.index % 2 == 0 %}tb-seller-row-even{% endif %}">
+                    <td class="tb-seller-cell">{{ book.name }}</td>
+                    <td class="tb-seller-cell">{{ book.author }}</td>
+                    <td class="tb-seller-cell">{{ book.sales }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+
+
+
+    </script>
+    
+    {% include 'sideMenu.html' %}
+</body>
+</html>

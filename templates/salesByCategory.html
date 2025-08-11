@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kitap Kategorilerine Göre Satışlar</title>
+ 
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</head>
+<body class="sales-info-body">
+<style>
+.category-info-body {
+  margin: 0;
+  font-family: 'Roboto', Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #f0f0f5, #d6d6e1);
+}
+
+.category-chart-container {
+  width: 85%;
+  margin: 20px auto;
+  margin-top: 80px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+
+}
+
+
+</style>
+  <div class="category-chart-container">
+    <h2>Kitap Kategorilerine Göre Satışlar</h2>
+    <div id="category-sales-chart"></div>
+  </div>
+
+  <script>
+    fetch('/get_category_sales_data')
+      .then(response => response.json())
+      .then(data => {
+
+
+        
+
+        var options = {
+          chart: {
+            type: 'bar', 
+            height: 700  
+          },
+          series: data.series,
+          xaxis: {
+            categories: data.categories,
+            
+          },
+          colors: ['#FF5733', '#33FF57', '#3357FF', '#F4A261', '#E76F51', '#2A9D8F'], // Renkler
+          title: {
+            text: '',
+            align: 'center',
+            style: {
+              fontSize: '50px',
+              fontWeight: 'bold',
+              color: '#333'
+            }
+          }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#category-sales-chart"), options);
+        chart.render();
+      })
+      .catch(error => console.error('Veri çekme hatası:', error));
+  </script>
+
+{% include 'sideMenu.html'%}
+</body>
+</html>

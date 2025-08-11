@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link rel="stylesheet" href="/static/styles/sideMenu.css">
+    <link rel="stylesheet" href="https://db.onlinewebfonts.com/c/0209bfe594ed24b75ee2aac06529e4f9?family=Neue+Haas+Grotesk+Display+Pro+75+Bold">
+    <link rel="stylesheet" href="https://fonts.cdnfonts.com/css/helvetica-neue-55?styles=15999">
+</head>
+
+<body>
+    
+   
+<div class="side-menu" id="sideMenu">
+
+    <a href="" style="position: relative;
+    top: -25px; right: 10px;" >
+        <span class="menu-icon"><img src="/static/assets/logo.png" width="78px" alt=""> </span>   
+        
+    </a>
+
+
+    <div class="menu-items">
+    
+        <!--  <a href="">
+            <span class="menu-icon"><img src="/static/assets/homepageicon.png" width="35px" alt=""></span>
+            <span class="menu-text">Anasayfa</span>
+        </a>-->
+
+        <a href="{{url_for('stockInfo')}}">
+            <span class="menu-icon"><img src="/static/assets/stokikon.png" width="35px" alt=""></span>
+            <span class="menu-text">Stok Bilgisi</span>
+        </a>
+
+        <a href="{{url_for('salesByPlatform')}}">
+            <span class="menu-icon"><img src="/static/assets/saleicon.png" width="35px" alt=""></span>
+            <span class="menu-text">Platforma Göre Satış</span>
+        </a>
+        <a href="{{url_for('salesByCategory')}}">
+            <span class="menu-icon"><img src="/static/assets/kategoriicon.png" width="35px" alt=""></span>
+            <span class="menu-text">Kategoriye Göre Satış</span>
+        </a>
+
+        <a href="{{url_for('topBottomTenSellers')}}">
+            <span class="menu-icon"><img src="/static/assets/statisticsicon.png" width="35px" alt=""></span>
+            <span class="menu-text">En Çok ve En Az<br>Satan 10 Kitap</span>
+        </a>
+
+        <a href="{{url_for('topAuthors')}}">
+            <span class="menu-icon"><img src="/static/assets/yazaricon.png" width="35px" alt=""></span>
+            <span class="menu-text">En Çok Okunan Yazarlar</span>
+        </a>
+
+        <a href="{{url_for('rent')}}">
+            <span class="menu-icon"><img src="/static/assets/renticon.png" width="35px" alt=""></span>
+            <span class="menu-text">Kiralık Kitap</span>
+        </a>
+    </div>
+</div>
+    
+    
+    <script src="/static/scripts/sideMenu.js"></script>
+</body>
+
+
+</html>

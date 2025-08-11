@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Screen</title>
+    <link rel="stylesheet" href="/static/loginStyle.css">
+</head>
+<body>
+    <style>
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+.login-container {
+    display: flex;
+    height: 100vh;
+}
+
+.login-form {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #d4d4d4;
+    padding: 2rem;
+}
+
+.logo {
+    width: 300px;
+    margin-bottom: 1rem;
+}
+
+.login-form h2 {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+form {
+    width: 100%;
+    max-width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+input {
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 1rem;
+}
+
+button {
+    padding: 0.75rem;
+    margin-top: 1rem;
+    background-color: #000000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2e2e2e;
+}
+
+.forgot-password {
+    margin-top: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #888;
+    text-decoration: none;
+}
+.error-message{
+    text-align: center;
+}
+.video-section {
+    flex: 1;
+    background-color: #000000;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.video-section video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+    </style>
+
+
+    <div class="login-container">
+       
+        <div class="login-form">
+            <img src="{{ url_for('static', filename='assets/logo.png') }}"  alt="Logo" class="logo" />
+            <h2>Hoşgeldiniz</h2>
+            <form id="login-form-id">
+                <input type="text" id="user-id" placeholder="Kullanıcı Adınızı Yazın." name="user-id" required>
+                <input type="password" id="user-password" placeholder="Şifre" name="user-password" required>
+                <button type="submit">Log In</button>
+                
+            
+                <p id="error-message" class="error-message" style="color: red;"></p>
+                
+
+            </form>
+            
+        </div>
+
+        
+      
+        <div class="video-section">
+            <video autoplay muted loop>
+                <source src="{{ url_for('static', filename='assets/login_video.mp4') }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+    <script >
+
+document.getElementById('login-form-id').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const userId = document.getElementById('user-id').value;
+    const userPassword = document.getElementById('user-password').value;
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = '';
+  
+    
+    const response = await fetch('/login', {
+        method: 'POST',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({userId, userPassword}),
+    });
+    
+    const data = await response.json();
+
+    if (data.success) {
+       
+        window.location.href = data.redirect_url;
+    } else {
+        errorMessage.textContent = data.message;
+    }
+});
+
+
+    </script>
+</body>
+</html>
